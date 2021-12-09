@@ -1,0 +1,4 @@
+dist/*
+/patsch
+/coverage.out
+/coverage.html
