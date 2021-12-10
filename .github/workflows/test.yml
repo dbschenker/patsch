@@ -16,6 +16,14 @@ jobs:
           go-version: ${{matrix.go-version}}
         id: go
 
+      - name: Cache Go modules packages
+        uses: actions/cache@v2.1.7
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
       - name: Check out code into the Go module directory
         uses: actions/checkout@v2
 
