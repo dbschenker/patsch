@@ -1,3 +1,7 @@
+[![License](https://img.shields.io/github/license/dbschenker/patsch?color=blue)](https://github.com/dbschenker/patsch/blob/main/LICENSE)
+[![Releases](https://img.shields.io/github/v/tag/dbschenker/patsch?color=blue)](https://github.com/dbschenker/patsch/releases)
+[![Go Report Card](https://goreportcard.com/badge/github.com/dbschenker/patsch)](https://goreportcard.com/report/github.com/dbschenker/patsch)
+
 # patsch
 
 **P**ermanently **A**ssert **T**arget **S**ucceeds **C**heck **H**ealth
