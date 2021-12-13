@@ -92,11 +92,11 @@ func success(msg string, site string) {
 	if quiet {
 		return
 	}
-	addrs, err := dns.Lookup(site)
+	addresses, err := dns.Lookup(site)
 	if err != nil {
 		failure(err)
 		return
 	}
 
-	fmt.Printf("✅ %s %s\n", msg, dns.Print(addrs, site))
+	fmt.Printf("✅ %s %s\n", msg, dns.Print(addresses, site))
 }
