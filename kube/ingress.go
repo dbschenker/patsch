@@ -66,7 +66,7 @@ func getIngresses(clientset *kubernetes.Clientset) []string {
 	if len(ingresses) > 0 {
 		for _, ingress := range ingresses {
 			for _, rule := range ingress.Spec.Rules {
-				if rule.Host != "" {
+				if rule.Host != "" && rule.HTTP != nil {
 					for _, p := range rule.HTTP.Paths {
 						ret = append(ret, fmt.Sprintf("https://%s%s", rule.Host, p.Path))
 					}
