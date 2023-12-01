@@ -11,6 +11,10 @@ import (
 	"k8s.io/client-go/tools/clientcmd"
 )
 
+type client struct {
+	clientset kubernetes.Interface
+}
+
 func FindIngresses(kubeconfig string) []string {
 	// use the current context in kubeconfig
 	config, err := clientcmd.BuildConfigFromFlags("", kubeconfig)
@@ -24,12 +28,12 @@ func FindIngresses(kubeconfig string) []string {
 		panic(err.Error())
 	}
 
-	return getIngresses(clientset)
+	return getIngresses(client{clientset: clientset})
 }
 
-func getIngresses(clientset *kubernetes.Clientset) []string {
+func getIngresses(c client) []string {
 	var ret []string
-	serverVersion, err := clientset.Discovery().ServerVersion()
+	serverVersion, err := c.clientset.Discovery().ServerVersion()
 	if err != nil {
 		panic(err.Error())
 	}
@@ -39,7 +43,7 @@ func getIngresses(clientset *kubernetes.Clientset) []string {
 		panic(err.Error())
 	}
 	if hasExt.Check(apiVersion) {
-		ingressList, err := clientset.ExtensionsV1beta1().Ingresses(v1.NamespaceAll).List(context.TODO(), v12.ListOptions{})
+		ingressList, err := c.clientset.ExtensionsV1beta1().Ingresses(v1.NamespaceAll).List(context.TODO(), v12.ListOptions{})
 		if err != nil {
 			panic(err.Error())
 		}
@@ -58,7 +62,7 @@ func getIngresses(clientset *kubernetes.Clientset) []string {
 		}
 	}
 
-	ingressList, err := clientset.NetworkingV1().Ingresses(v1.NamespaceAll).List(context.TODO(), v12.ListOptions{})
+	ingressList, err := c.clientset.NetworkingV1().Ingresses(v1.NamespaceAll).List(context.TODO(), v12.ListOptions{})
 	if err != nil {
 		panic(err.Error())
 	}
@@ -66,7 +70,7 @@ func getIngresses(clientset *kubernetes.Clientset) []string {
 	if len(ingresses) > 0 {
 		for _, ingress := range ingresses {
 			for _, rule := range ingress.Spec.Rules {
-				if rule.Host != "" {
+				if rule.Host != "" && rule.HTTP != nil {
 					for _, p := range rule.HTTP.Paths {
 						ret = append(ret, fmt.Sprintf("https://%s%s", rule.Host, p.Path))
 					}
