@@ -44,13 +44,13 @@ func Fetch(client *http.Client, site string, ch chan<- Result) {
 		return
 	}
 
-	secs := time.Since(start).Milliseconds()
-	out := fmt.Sprintf("%d\t  %-10.10s  %-70.70s", secs, resp.Status, site)
+	msecs := time.Since(start).Milliseconds()
+	out := fmt.Sprintf("%d\t  %-10.10s  %-70.70s", msecs, resp.Status, site)
 
 	if resp.StatusCode < 200 || resp.StatusCode > 499 {
 		ch <- Result{
 			Message: "",
-			Error:   fmt.Errorf(out),
+			Error:   fmt.Errorf("%s", out),
 			Site:    site,
 		}
 		_ = resp.Body.Close() // don't leak resources

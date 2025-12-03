@@ -6,7 +6,7 @@ import (
 
 	"github.com/hashicorp/go-version"
 	v1 "k8s.io/api/core/v1"
-	v12 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
 )
@@ -43,7 +43,7 @@ func getIngresses(c client) []string {
 		panic(err.Error())
 	}
 	if hasExt.Check(apiVersion) {
-		ingressList, err := c.clientset.ExtensionsV1beta1().Ingresses(v1.NamespaceAll).List(context.TODO(), v12.ListOptions{})
+		ingressList, err := c.clientset.ExtensionsV1beta1().Ingresses(v1.NamespaceAll).List(context.TODO(), metav1.ListOptions{})
 		if err != nil {
 			panic(err.Error())
 		}
@@ -62,7 +62,7 @@ func getIngresses(c client) []string {
 		}
 	}
 
-	ingressList, err := c.clientset.NetworkingV1().Ingresses(v1.NamespaceAll).List(context.TODO(), v12.ListOptions{})
+	ingressList, err := c.clientset.NetworkingV1().Ingresses(v1.NamespaceAll).List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
 		panic(err.Error())
 	}

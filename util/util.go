@@ -8,3 +8,5 @@ func HomeDir() string {
 	}
 	return os.Getenv("USERPROFILE") // windows
 }
+
+func Addr[T any](t T) *T { return &t }

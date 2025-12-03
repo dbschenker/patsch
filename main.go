@@ -42,6 +42,7 @@ func main() {
 
 	if auto {
 		urls = kube.FindIngresses(*kubeconfig)
+		urls = append(urls, kube.FindHTTPRoutes(*kubeconfig)...)
 	} else {
 		urls = flag.Args()
 	}
@@ -98,5 +99,5 @@ func success(msg string, site string) {
 		return
 	}
 
-	fmt.Printf("✅ %s %s\n", msg, dns.Print(addresses, site))
+	fmt.Printf("✅\t%s %s\n", msg, dns.Print(addresses, site))
 }
