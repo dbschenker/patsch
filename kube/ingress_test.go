@@ -3,7 +3,7 @@ package kube
 import (
 	"github.com/stretchr/testify/assert"
 	v1 "k8s.io/api/networking/v1"
-	v12 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/version"
 	"k8s.io/client-go/discovery/fake"
 	testclient "k8s.io/client-go/kubernetes/fake"
@@ -12,16 +12,16 @@ import (
 )
 
 func TestIngress(t *testing.T) {
-	cs := testclient.NewSimpleClientset(
+	cs := testclient.NewClientset(
 		// first element is completely empty, but getIngresses should handle this gracefully
 		&v1.Ingress{},
 		// this is a "real" ingres complete with HTTP rule and path
 		&v1.Ingress{
-			TypeMeta: v12.TypeMeta{
+			TypeMeta: metav1.TypeMeta{
 				Kind:       "Ingress",
 				APIVersion: "networking.k8s.io/v1",
 			},
-			ObjectMeta: v12.ObjectMeta{
+			ObjectMeta: metav1.ObjectMeta{
 				Namespace: "default",
 				Name:      "ingrid",
 			},
