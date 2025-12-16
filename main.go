@@ -43,6 +43,7 @@ func main() {
 	if auto {
 		urls = kube.FindIngresses(*kubeconfig)
 		urls = append(urls, kube.FindHTTPRoutes(*kubeconfig)...)
+		urls = append(urls, kube.FindServices(*kubeconfig)...)
 	} else {
 		urls = flag.Args()
 	}
